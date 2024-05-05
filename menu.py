@@ -43,17 +43,25 @@ def main_menu():
         difficulty_rect = difficulty_text.get_rect(center=(WIDTH // 2, 180))
 
         agent_text = font3.render("Agent", True, BLACK)
-        agent_rect = agent_text.get_rect(center=(WIDTH // 2, 315))
+        agent_rect = agent_text.get_rect(center=(WIDTH // 2, 295))
 
         player_text = font2.render("Player", True, BLACK)
-        player_rect = player_text.get_rect(center=(WIDTH // 2.6, 380))
+        player_rect = player_text.get_rect(center=(WIDTH // 2.6, 345))
 
         ai_text = font2.render("AI", True, BLACK)
-        ai_rect = ai_text.get_rect(center=(WIDTH // 1.6, 380))
+        ai_rect = ai_text.get_rect(center=(WIDTH // 1.6, 345))
 
+        algo_text = font3.render("Algorithm", True, BLACK)
+        algo_rect = agent_text.get_rect(center=(WIDTH // 2.15, 400))
+
+        min_max_text = font2.render("Min/Max", True,BLACK)
+        min_max_rect = min_max_text.get_rect(center=(WIDTH // 1.45, 450))
+
+        alpha_beta_text = font2.render("Alpha/Beta", True, BLACK)
+        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 3.5, 450))
 
         exit_text = font2.render("Exit", True, BLACK)
-        exit_rect = exit_text.get_rect(center=(WIDTH // 2, 500))
+        exit_rect = exit_text.get_rect(center=(WIDTH // 2, 530))
 
         # Change the color of text based on the agent selection
         if agent == 1:
@@ -67,7 +75,9 @@ def main_menu():
         screen.blit(agent_text, agent_rect)
         screen.blit(player_text, player_rect)
         screen.blit(ai_text, ai_rect)
-
+        screen.blit(algo_text, algo_rect)
+        screen.blit(min_max_text, min_max_rect)
+        screen.blit(alpha_beta_text,alpha_beta_rect)
 
         # Left arrow button
         left_arrow = pygame.Rect(205, 210, 50, 50)

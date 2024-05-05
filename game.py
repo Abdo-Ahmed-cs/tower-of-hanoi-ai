@@ -193,6 +193,7 @@ class Game():
         self.create_indicator()
         self.draw_rods()
         self.draw_discs()
+        self.draw_score()
         pygame.display.flip()
 
 if __name__ == "__main__":

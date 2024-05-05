@@ -26,6 +26,9 @@ def main_menu():
     # Initialize agent variable
     agent = 1
 
+    # Initialize agent variable
+    algo = 1
+
     # Main menu loop
     running = True
     while running:
@@ -68,6 +71,11 @@ def main_menu():
             player_text = font2.render("Player", True, WHITE)
         elif agent == 2:
             ai_text = font2.render("AI", True, WHITE)
+
+        if algo == 1:
+            min_max_text = font2.render("Min/Max", True, WHITE)
+        elif algo == 2:
+            alpha_beta_text = font2.render("Alpha/Beta", True, WHITE)
 
         screen.blit(title_text_shadow, (title_rect.x + 4, title_rect.y + 4))
         screen.blit(title_text, title_rect)
@@ -112,7 +120,7 @@ def main_menu():
                 elif event.key == pygame.K_RIGHT:
                     num_discs = min(num_discs + 1, max_discs)
                 elif event.key == pygame.K_RETURN:
-                    game = Game(num_discs, agent)
+                    game = Game(num_discs, agent, algo)
                     game.main_loop()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if left_arrow.collidepoint(event.pos):
@@ -127,6 +135,12 @@ def main_menu():
                 elif ai_rect.collidepoint(event.pos):
                     agent = 2
                     screen.blit(ai_text, ai_rect)
+                if min_max_rect.collidepoint(event.pos):
+                    algo = 1
+                    screen.blit(min_max_text, min_max_rect)
+                elif alpha_beta_rect.collidepoint(event.pos):
+                    algo = 2
+                    screen.blit(alpha_beta_text, alpha_beta_rect)
 
     pygame.quit()
     sys.exit()

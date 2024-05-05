@@ -34,10 +34,20 @@ def main_menu():
         title_rect = title_text.get_rect(center=(WIDTH // 2, 100))
 
         discs_text = font2.render(f"{num_discs}", True, BLACK)
-        discs_rect = discs_text.get_rect(center=(WIDTH // 2, 360))  # Reduced space around the number of discs
+        discs_rect = discs_text.get_rect(center=(WIDTH // 2, 240))  # Reduced space around the number of discs
 
         difficulty_text = font3.render("Difficulty Level", True, BLACK)
-        difficulty_rect = difficulty_text.get_rect(center=(WIDTH // 2, 250))
+        difficulty_rect = difficulty_text.get_rect(center=(WIDTH // 2, 180))
+
+        agent_text = font3.render("Agent", True, BLACK)
+        agent_rect = difficulty_text.get_rect(center=(WIDTH // 1.7, 315))
+
+        player_text = font2.render("Player", True, BLACK)
+        player_rect = difficulty_text.get_rect(center=(WIDTH // 2 - 0, 380))
+
+        ai_text = font2.render("AI", True, BLACK)
+        ai_rect = difficulty_text.get_rect(center=(WIDTH // 2 + 200, 380))
+
 
         exit_text = font2.render("Exit", True, BLACK)
         exit_rect = exit_text.get_rect(center=(WIDTH // 2, 500))
@@ -45,21 +55,27 @@ def main_menu():
         screen.blit(title_text_shadow, (title_rect.x + 4, title_rect.y + 4))
         screen.blit(title_text, title_rect)
         screen.blit(difficulty_text, difficulty_rect)
+        screen.blit(agent_text, agent_rect)
+        screen.blit(player_text, player_rect)
+        screen.blit(ai_text, ai_rect)
+
 
         # Left arrow button
-        left_arrow = pygame.Rect(205, 335, 50, 50)
-        pygame.draw.polygon(screen, BLACK, [(220, 360), (240, 335), (240, 385)])
+        left_arrow = pygame.Rect(205, 210, 50, 50)
+        pygame.draw.polygon(screen, BLACK, [(220, 235), (240, 210), (240, 260)])
         if left_arrow.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.polygon(screen, RED, [(220, 360), (240, 335), (240, 385)], 3)
+            pygame.draw.polygon(screen, RED, [(220, 235), (240, 210), (240, 260)], 3)
 
         # Right arrow button
-        right_arrow = pygame.Rect(550, 335, 50, 50)
-        pygame.draw.polygon(screen, BLACK, [(565, 360), (545, 335), (545, 385)])
+        right_arrow = pygame.Rect(550, 210, 50, 50)
+        pygame.draw.polygon(screen, BLACK, [(565, 235), (545, 210), (545, 260)])
         if right_arrow.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.polygon(screen, GOLD, [(565, 360), (545, 335), (545, 385)], 3)
+            pygame.draw.polygon(screen, GOLD, [(565, 235), (545, 210), (545, 260)], 3)
 
         screen.blit(discs_text, discs_rect)
         screen.blit(exit_text, exit_rect)
+
+
 
         pygame.display.flip()
         clock = pygame.time.Clock()
@@ -77,7 +93,7 @@ def main_menu():
                 elif event.key == pygame.K_RIGHT:
                     num_discs = min(num_discs + 1, max_discs)
                 elif event.key == pygame.K_RETURN:
-                    game = Game(num_discs)
+                    game = Game(num_discs, 1)
                     game.main_loop()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if left_arrow.collidepoint(event.pos):

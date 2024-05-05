@@ -23,11 +23,11 @@ class Disc:
         disc_rect = pygame.Rect(self.position[0], self.position[1] - DISK_HEIGHT, self.size, DISK_HEIGHT)
         pygame.draw.rect(screen, self.color, disc_rect)
 class Game():
-    def __init__(self, num_discs):
+    def __init__(self, num_discs, agent = 1):
         self.num_discs = num_discs
         self.rods = [[], [], []]
         self.init_discs()
-
+        self.agent = agent
         self.current_pos = WIDTH // 4 - ST_WIDTH // 4 - ROD_WIDTH // 2
         self.current_rod = 1
         self.selected_disc = None

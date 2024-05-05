@@ -27,7 +27,7 @@ def main_menu():
     agent = 1
 
     # Initialize agent variable
-    algo = 1
+    algo = 0
 
     # Main menu loop
     running = True
@@ -131,14 +131,16 @@ def main_menu():
                     running = False  # Set running to False to exit the loop
                 if player_rect.collidepoint(event.pos):
                     agent = 1
+                    algo = 0
                     screen.blit(player_text, player_rect)
                 elif ai_rect.collidepoint(event.pos):
                     agent = 2
+                    algo = 1
                     screen.blit(ai_text, ai_rect)
-                if min_max_rect.collidepoint(event.pos):
+                if min_max_rect.collidepoint(event.pos) and agent == 2:
                     algo = 1
                     screen.blit(min_max_text, min_max_rect)
-                elif alpha_beta_rect.collidepoint(event.pos):
+                elif alpha_beta_rect.collidepoint(event.pos) and agent == 2:
                     algo = 2
                     screen.blit(alpha_beta_text, alpha_beta_rect)
 

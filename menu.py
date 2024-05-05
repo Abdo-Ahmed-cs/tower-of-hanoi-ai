@@ -23,6 +23,9 @@ def main_menu():
     max_discs = 6
     min_discs = 2
 
+    # Initialize agent variable
+    agent = 1
+
     # Main menu loop
     running = True
     while running:
@@ -40,17 +43,23 @@ def main_menu():
         difficulty_rect = difficulty_text.get_rect(center=(WIDTH // 2, 180))
 
         agent_text = font3.render("Agent", True, BLACK)
-        agent_rect = difficulty_text.get_rect(center=(WIDTH // 1.7, 315))
+        agent_rect = agent_text.get_rect(center=(WIDTH // 2, 315))
 
         player_text = font2.render("Player", True, BLACK)
-        player_rect = difficulty_text.get_rect(center=(WIDTH // 2 - 0, 380))
+        player_rect = player_text.get_rect(center=(WIDTH // 2.6, 380))
 
         ai_text = font2.render("AI", True, BLACK)
-        ai_rect = difficulty_text.get_rect(center=(WIDTH // 2 + 200, 380))
+        ai_rect = ai_text.get_rect(center=(WIDTH // 1.6, 380))
 
 
         exit_text = font2.render("Exit", True, BLACK)
         exit_rect = exit_text.get_rect(center=(WIDTH // 2, 500))
+
+        # Change the color of text based on the agent selection
+        if agent == 1:
+            player_text = font2.render("Player", True, WHITE)
+        elif agent == 2:
+            ai_text = font2.render("AI", True, WHITE)
 
         screen.blit(title_text_shadow, (title_rect.x + 4, title_rect.y + 4))
         screen.blit(title_text, title_rect)
@@ -64,13 +73,13 @@ def main_menu():
         left_arrow = pygame.Rect(205, 210, 50, 50)
         pygame.draw.polygon(screen, BLACK, [(220, 235), (240, 210), (240, 260)])
         if left_arrow.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.polygon(screen, RED, [(220, 235), (240, 210), (240, 260)], 3)
+            pygame.draw.polygon(screen, WHITE, [(220, 235), (240, 210), (240, 260)], 3)
 
         # Right arrow button
         right_arrow = pygame.Rect(550, 210, 50, 50)
         pygame.draw.polygon(screen, BLACK, [(565, 235), (545, 210), (545, 260)])
         if right_arrow.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.polygon(screen, GOLD, [(565, 235), (545, 210), (545, 260)], 3)
+            pygame.draw.polygon(screen, WHITE, [(565, 235), (545, 210), (545, 260)], 3)
 
         screen.blit(discs_text, discs_rect)
         screen.blit(exit_text, exit_rect)
@@ -93,7 +102,7 @@ def main_menu():
                 elif event.key == pygame.K_RIGHT:
                     num_discs = min(num_discs + 1, max_discs)
                 elif event.key == pygame.K_RETURN:
-                    game = Game(num_discs, 1)
+                    game = Game(num_discs, agent)
                     game.main_loop()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if left_arrow.collidepoint(event.pos):
@@ -102,6 +111,12 @@ def main_menu():
                     num_discs = min(num_discs + 1, max_discs)
                 elif exit_rect.collidepoint(event.pos):  # Check if Exit button is clicked
                     running = False  # Set running to False to exit the loop
+                if player_rect.collidepoint(event.pos):
+                    agent = 1
+                    screen.blit(player_text, player_rect)
+                elif ai_rect.collidepoint(event.pos):
+                    agent = 2
+                    screen.blit(ai_text, ai_rect)
 
     pygame.quit()
     sys.exit()

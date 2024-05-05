@@ -23,7 +23,7 @@ class Disc:
         disc_rect = pygame.Rect(self.position[0], self.position[1] - DISK_HEIGHT, self.size, DISK_HEIGHT)
         pygame.draw.rect(screen, self.color, disc_rect)
 class Game():
-    def __init__(self, num_discs, agent = 1 , algo = 0):
+    def __init__(self, num_discs, agent = 1 , algo = 0 , score = 0):
         self.num_discs = num_discs
         self.rods = [[], [], []]
         self.init_discs()
@@ -32,6 +32,7 @@ class Game():
         self.current_pos = WIDTH // 4 - ST_WIDTH // 4 - ROD_WIDTH // 2
         self.current_rod = 1
         self.selected_disc = None
+        self.score = score
         print(self.rods)
     def draw_stations(self):
         # Create rectangles
@@ -91,6 +92,11 @@ class Game():
         pygame.draw.rect(screen, ROD_COLOR, rod2)
         pygame.draw.rect(screen, ROD_COLOR, rod3)
 
+    def draw_score(self):
+        font = pygame.font.Font(None, 36)
+        text = font.render("Score: " + str(self.score), True, BLACK)
+        screen.blit(text, (10, 10))
+
     def init_discs(self):
         for i in range(self.num_discs, 0, -1):
             size = i * (DISK_WIDTH // self.num_discs)
@@ -129,6 +135,7 @@ class Game():
             current_rod.append(self.selected_disc)
             self.selected_disc = None
 
+            self.score = self.score + 1
             print([len(self.rods[0]), len(self.rods[1]), len(self.rods[2])])
         elif self.selected_disc is not None:
             if direction == 'left':

@@ -58,10 +58,10 @@ def main_menu():
         algo_rect = agent_text.get_rect(center=(WIDTH // 2.15, 400))
 
         min_max_text = font2.render("Min/Max", True,BLACK)
-        min_max_rect = min_max_text.get_rect(center=(WIDTH // 1.45, 450))
+        min_max_rect = min_max_text.get_rect(center=(WIDTH // 3.5, 450))
 
         alpha_beta_text = font2.render("Alpha/Beta", True, BLACK)
-        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 3.5, 450))
+        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 1.45, 450))
 
         exit_text = font2.render("Exit", True, BLACK)
         exit_rect = exit_text.get_rect(center=(WIDTH // 2, 530))

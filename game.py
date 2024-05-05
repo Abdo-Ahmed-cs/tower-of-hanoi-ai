@@ -188,5 +188,5 @@ class Game():
         pygame.display.flip()
 
 if __name__ == "__main__":
-    game = Game(6)
+    game = Game(3)
     game.main_loop()

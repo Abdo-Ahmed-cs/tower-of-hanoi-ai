@@ -34,7 +34,7 @@ def main_menu():
         title_rect = title_text.get_rect(center=(WIDTH // 2, 100))
 
         discs_text = font2.render(f"{num_discs}", True, BLACK)
-        discs_rect = discs_text.get_rect(center=(WIDTH // 2, 350))  # Reduced space around the number of discs
+        discs_rect = discs_text.get_rect(center=(WIDTH // 2, 360))  # Reduced space around the number of discs
 
         difficulty_text = font3.render("Difficulty Level", True, BLACK)
         difficulty_rect = difficulty_text.get_rect(center=(WIDTH // 2, 250))
@@ -47,16 +47,16 @@ def main_menu():
         screen.blit(difficulty_text, difficulty_rect)
 
         # Left arrow button
-        left_arrow = pygame.Rect(150, 335, 50, 50)
-        pygame.draw.polygon(screen, BLACK, [(165, 360), (185, 335), (185, 385)])
+        left_arrow = pygame.Rect(205, 335, 50, 50)
+        pygame.draw.polygon(screen, BLACK, [(220, 360), (240, 335), (240, 385)])
         if left_arrow.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.polygon(screen, RED, [(165, 360), (185, 335), (185, 385)], 3)
+            pygame.draw.polygon(screen, RED, [(220, 360), (240, 335), (240, 385)], 3)
 
         # Right arrow button
-        right_arrow = pygame.Rect(600, 335, 50, 50)
-        pygame.draw.polygon(screen, BLACK, [(615, 360), (595, 335), (595, 385)])
+        right_arrow = pygame.Rect(550, 335, 50, 50)
+        pygame.draw.polygon(screen, BLACK, [(565, 360), (545, 335), (545, 385)])
         if right_arrow.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.polygon(screen, GOLD, [(615, 360), (595, 335), (595, 385)], 3)
+            pygame.draw.polygon(screen, GOLD, [(565, 360), (545, 335), (545, 385)], 3)
 
         screen.blit(discs_text, discs_rect)
         screen.blit(exit_text, exit_rect)

@@ -15,6 +15,8 @@ GOLD = (239, 229, 51)
 BLUE = (78,162,196)
 GREY = (170, 170, 170)
 GREEN = (77, 206, 145)
+LGREEN = (141,217,199)
+Lblue = (60,218,245)
 
 # Define stations dimensions
 ST_WIDTH = 200

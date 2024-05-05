@@ -93,13 +93,13 @@ class Game():
         pygame.draw.rect(screen, ROD_COLOR, rod3)
 
     def draw_score(self):
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font(None, 30)
         text = font.render("Score: " + str(self.score), True, BLACK)
         screen.blit(text, (10, 10))
 
     def init_discs(self):
         for i in range(self.num_discs, 0, -1):
-            size = i * (DISK_WIDTH // self.num_discs)
+            size = i * DISK_WIDTH
             color = (20, 20, 255 - i * (200 // self.num_discs))
             position_x = WIDTH // 4 - ST_WIDTH // 4 - size // 2
             position_y = HEIGHT - (self.num_discs - i + 1) * (DISK_HEIGHT + DISK_SPACING) - ST_OFFSET - (ST_HEIGHT / 2)
@@ -113,7 +113,6 @@ class Game():
         if direction == 'up' and len(current_rod) != 0 and self.selected_disc is None:
             # Move the disc up
             self.selected_disc = current_rod[-1]
-            print(self.selected_disc.size)
             self.selected_disc.position = (
                 self.selected_disc.position[0],
                 200

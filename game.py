@@ -3,6 +3,10 @@ import pygame
 from constants import *
 from check_win import *
 
+
+# Your game implementation continues here...
+
+
 # initializing our game display window
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -195,10 +199,12 @@ class Game():
                 # Display win message
                 display_win_message(screen, self.score)
 
-                # Wait for any key press
+                # Wait for key press
                 press_result = press_any_key()
                 if press_result == "main_menu":
                     return
+                elif press_result == pygame.K_r:
+                    reset_game()
 
         pygame.quit()
         sys.exit()

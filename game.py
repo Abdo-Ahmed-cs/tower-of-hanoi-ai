@@ -164,6 +164,13 @@ class Game():
             return 3 * WIDTH // 4 - ROD_WIDTH // 2 + ST_WIDTH // 4 - (
                 self.rods[rod][-1].size // 2 if self.rods[rod] else 0)
 
+    def reset_game(self):
+        self.rods = [[], [], []]
+        self.init_discs()
+        self.current_pos = WIDTH // 4 - ST_WIDTH // 4 - ROD_WIDTH // 2
+        self.current_rod = 1
+        self.selected_disc = None
+        self.score = 0
     def main_loop(self):
         clock = pygame.time.Clock()
         running = True
@@ -189,8 +196,8 @@ class Game():
 
                     elif event.key == pygame.K_DOWN:
                         self.move_top_disc('down')
-
-
+                    elif event.key == pygame.K_r:
+                        self.reset_game()
             self.redraw_scene()
 
             # Check win condition
@@ -203,8 +210,6 @@ class Game():
                 press_result = press_any_key()
                 if press_result == "main_menu":
                     return
-                elif press_result == pygame.K_r:
-                    reset_game()
 
         pygame.quit()
         sys.exit()

@@ -23,18 +23,7 @@ def press_any_key():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return "main_menu"  # Return "main_menu" if Esc key is pressed
-                elif event.key == pygame.K_r:
-                    reset_game()  # Reset the game if 'r' key is pressed
             elif event.type == pygame.QUIT:
                 sys.exit()
-
-def reset_game(game):
-    # Reset all game-related variables and states
-    game.rods = [[], [], []]
-    game.init_discs()
-    game.current_pos = WIDTH // 4 - ST_WIDTH // 4 - ROD_WIDTH // 2
-    game.current_rod = 1
-    game.selected_disc = None
-    game.score = 0
 
 

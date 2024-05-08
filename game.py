@@ -1,7 +1,7 @@
 import sys
 import pygame
 from constants import *
-
+from check_win import *
 
 # initializing our game display window
 pygame.init()
@@ -159,9 +159,11 @@ class Game():
         else:
             return 3 * WIDTH // 4 - ROD_WIDTH // 2 + ST_WIDTH // 4 - (
                 self.rods[rod][-1].size // 2 if self.rods[rod] else 0)
+
     def main_loop(self):
         clock = pygame.time.Clock()
         running = True
+
 
         while running:
             clock.tick(60)
@@ -173,15 +175,30 @@ class Game():
                     if event.key == pygame.K_LEFT:
                         self.move_indicator('left')
                         self.move_top_disc('left')
+
                     elif event.key == pygame.K_RIGHT:
                         self.move_indicator('right')
                         self.move_top_disc('right')
+
                     elif event.key == pygame.K_UP:
                         self.move_top_disc('up')
+
                     elif event.key == pygame.K_DOWN:
                         self.move_top_disc('down')
 
+
             self.redraw_scene()
+
+            # Check win condition
+            if check_win(self.rods, self.num_discs):
+                screen.fill(WHITE)
+                # Display win message
+                display_win_message(screen, self.score)
+
+                # Wait for any key press
+                press_result = press_any_key()
+                if press_result == "main_menu":
+                    return
 
         pygame.quit()
         sys.exit()

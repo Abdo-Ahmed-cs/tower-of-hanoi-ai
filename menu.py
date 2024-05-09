@@ -57,11 +57,11 @@ def main_menu():
         algo_text = font3.render("Algorithm", True, BLACK)
         algo_rect = agent_text.get_rect(center=(WIDTH // 2.15, 400))
 
-        min_max_text = font2.render("Min/Max", True,BLACK)
-        min_max_rect = min_max_text.get_rect(center=(WIDTH // 3.5, 450))
+        min_max_text = font2.render("DFS", True,BLACK)
+        min_max_rect = min_max_text.get_rect(center=(WIDTH // 2.7, 450))
 
-        alpha_beta_text = font2.render("Alpha/Beta", True, BLACK)
-        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 1.45, 450))
+        alpha_beta_text = font2.render("BFS", True, BLACK)
+        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 1.6, 450))
 
         exit_text = font2.render("Exit", True, BLACK)
         exit_rect = exit_text.get_rect(center=(WIDTH // 2, 530))
@@ -73,9 +73,9 @@ def main_menu():
             ai_text = font2.render("AI", True, WHITE)
 
         if algo == 1:
-            min_max_text = font2.render("Min/Max", True, WHITE)
+            min_max_text = font2.render("DFS", True, WHITE)
         elif algo == 2:
-            alpha_beta_text = font2.render("Alpha/Beta", True, WHITE)
+            alpha_beta_text = font2.render("BFS", True, WHITE)
 
         screen.blit(title_text_shadow, (title_rect.x + 4, title_rect.y + 4))
         screen.blit(title_text, title_rect)

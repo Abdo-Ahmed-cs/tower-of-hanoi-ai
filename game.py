@@ -2,7 +2,8 @@ import sys
 import pygame
 from constants import *
 from check_win import *
-
+from collections import deque
+import time
 
 # Your game implementation continues here...
 
@@ -16,6 +17,25 @@ pygame.display.set_icon(ICON)
 screen.fill(WHITE)
 
 
+def tower_of_hanoi(n, start_rod, target_rod, aux_rod):
+    if n == 1:
+        return [(start_rod, target_rod)]
+    else:
+        moves = []
+
+        # Step 2: Recursive call with n-1 disks
+        moves.extend(tower_of_hanoi(n-1, start_rod, aux_rod, target_rod))
+
+        # Step 3: Append the move for the remaining disk
+        moves.append((start_rod, target_rod))
+
+        # Step 4: Recursive call with n-1 disks again
+        moves.extend(tower_of_hanoi(n-1, aux_rod, target_rod, start_rod))
+
+        return moves
+
+    def minmax_tower_of_hanoi(num_disks):
+        return tower_of_hanoi(num_disks, 'A', 'C', 'B')
 class Disc:
     def __init__(self, size, color, rod, position):
         self.size = size
@@ -37,6 +57,7 @@ class Game():
         self.current_rod = 1
         self.selected_disc = None
         self.score = score
+        self.speed = 0.3
         print(self.rods)
     def draw_stations(self):
         # Create rectangles
@@ -155,6 +176,7 @@ class Game():
             for disc in rod:
                 disc.draw()
 
+
     def calculate_position(self, rod):
         if rod == 0:
             return WIDTH // 4 - ST_WIDTH // 4 - (self.rods[rod][-1].size // 2 if self.rods[rod] else 0)
@@ -171,6 +193,96 @@ class Game():
         self.current_rod = 1
         self.selected_disc = None
         self.score = 0
+
+    def tower_of_hanoi_dfs(self):
+        def dfs_helper(disks, source_rod, target_rod, aux_rod):
+            if disks == 1:
+                return [(source_rod, target_rod)]
+            else:
+                moves = []
+
+                moves.extend(dfs_helper(disks - 1, source_rod, aux_rod, target_rod))
+                moves.append((source_rod, target_rod))
+                moves.extend(dfs_helper(disks - 1, aux_rod, target_rod, source_rod))
+
+                return moves
+
+        dfs_moves = dfs_helper(self.num_discs, 1, 3, 2)
+        for move in dfs_moves:
+            for i in range(0, abs(move[0] - self.current_rod)):
+                if move[0] - self.current_rod > 0:
+                    self.move_indicator("right")
+                else:
+                    self.move_indicator("left")
+                time.sleep(self.speed)
+            self.move_top_disc("up")
+            time.sleep(self.speed)
+            for i in range(0, abs(move[0] - move[1])):
+                if move[0] - move[1] > 0:
+                    self.move_top_disc("left")
+                    self.move_indicator("left")
+                else:
+                    self.move_top_disc("right")
+                    self.move_indicator("right")
+                time.sleep(self.speed)
+            self.move_top_disc("down")
+            time.sleep(self.speed)
+
+    def tower_of_hanoi_bfs(self):
+        start_state = (list(range(self.num_discs, 0, -1)), [], [])
+        queue = deque([(start_state, [])])
+        visited_states = set([tuple(start_state[0]), tuple(start_state[1]), tuple(start_state[2])])
+        moves = []
+
+        while queue:
+            current_state, moves_so_far = queue.popleft()
+            disks_on_rod_a, disks_on_rod_b, disks_on_rod_c = current_state
+
+            for move in moves_so_far:
+                for i in range(0, abs(move[0] - self.current_rod)):
+                    if move[0] - self.current_rod > 0:
+                        self.move_indicator("right")
+                    else:
+                        self.move_indicator("left")
+                    time.sleep(self.speed)
+                self.move_top_disc("up")
+                time.sleep(self.speed)
+                for i in range(0, abs(move[0] - move[1])):
+                    if move[0] - move[1] > 0:
+                        self.move_top_disc("left")
+                        self.move_indicator("left")
+                    else:
+                        self.move_top_disc("right")
+                        self.move_indicator("right")
+                    time.sleep(self.speed)
+                self.move_top_disc("down")
+                time.sleep(self.speed)
+
+            if len(disks_on_rod_c) == self.num_discs:
+                moves = moves_so_far
+                print("Solution Found!")
+                break
+
+            for source, source_rods in enumerate([disks_on_rod_a, disks_on_rod_b, disks_on_rod_c]):
+                if source_rods:
+                    for target, target_rods in enumerate([disks_on_rod_a, disks_on_rod_b, disks_on_rod_c]):
+                        if source != target and (not target_rods or source_rods[-1] < target_rods[-1]):
+                            new_state = (
+                                disks_on_rod_a[:],
+                                disks_on_rod_b[:],
+                                disks_on_rod_c[:]
+                            )
+                            new_state[target].append(new_state[source].pop())
+
+                            if tuple(new_state[0]) not in visited_states or tuple(
+                                    new_state[1]) not in visited_states or tuple(new_state[2]) not in visited_states:
+                                queue.append((new_state, moves_so_far + [(source + 1, target + 1)]))
+                                visited_states.add(tuple(new_state[0]))
+                                visited_states.add(tuple(new_state[1]))
+                                visited_states.add(tuple(new_state[2]))
+                                print("Added State to Queue:", new_state)
+
+        return moves
     def main_loop(self):
         clock = pygame.time.Clock()
         running = True
@@ -178,6 +290,16 @@ class Game():
 
         while running:
             clock.tick(60)
+
+            if self.agent == 2:
+                if self.algo == 1:
+                    self.redraw_scene()
+                    time.sleep(self.speed)
+                    self.tower_of_hanoi_dfs()
+                if self.algo == 2:
+                    self.redraw_scene()
+                    time.sleep(self.speed)
+                    self.tower_of_hanoi_bfs()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -198,6 +320,8 @@ class Game():
                         self.move_top_disc('down')
                     elif event.key == pygame.K_r:
                         self.reset_game()
+                    elif event.key == pygame.K_ESCAPE:
+                        return
             self.redraw_scene()
 
             # Check win condition
@@ -224,5 +348,5 @@ class Game():
         pygame.display.flip()
 
 if __name__ == "__main__":
-    game = Game(3)
+    game = Game(2, 2, 2)
     game.main_loop()

@@ -307,7 +307,7 @@ class Game():
             if check_win(self.rods, self.num_discs):
                 screen.fill(WHITE)
                 # Display win message
-                display_win_message(screen, self.score)
+                display_win_message(screen, self.score, self.num_discs)
 
                 # Wait for key press
                 press_result = press_any_key()
@@ -327,5 +327,5 @@ class Game():
         pygame.display.flip()
 
 if __name__ == "__main__":
-    game = Game(2, 2, 2)
+    game = Game(1, 2, 2)
     game.main_loop()

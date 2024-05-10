@@ -60,8 +60,8 @@ def main_menu():
         min_max_text = font2.render("DFS", True,BLACK)
         min_max_rect = min_max_text.get_rect(center=(WIDTH // 2.7, 450))
 
-        alpha_beta_text = font2.render("Recursion", True, BLACK)
-        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 1.7, 450))
+        recursion_text = font2.render("Recursion", True, BLACK)
+        recursion_rect = recursion_text.get_rect(center=(WIDTH // 1.7, 450))
 
         exit_text = font2.render("Exit", True, BLACK)
         exit_rect = exit_text.get_rect(center=(WIDTH // 2, 530))
@@ -75,7 +75,7 @@ def main_menu():
         if algo == 1:
             min_max_text = font2.render("DFS", True, WHITE)
         elif algo == 2:
-            alpha_beta_text = font2.render("Recursion", True, WHITE)
+            recursion_text = font2.render("Recursion", True, WHITE)
 
         screen.blit(title_text_shadow, (title_rect.x + 4, title_rect.y + 4))
         screen.blit(title_text, title_rect)
@@ -85,7 +85,7 @@ def main_menu():
         screen.blit(ai_text, ai_rect)
         screen.blit(algo_text, algo_rect)
         screen.blit(min_max_text, min_max_rect)
-        screen.blit(alpha_beta_text,alpha_beta_rect)
+        screen.blit(recursion_text,recursion_rect)
 
         # Left arrow button
         left_arrow = pygame.Rect(205, 210, 50, 50)
@@ -140,9 +140,9 @@ def main_menu():
                 if min_max_rect.collidepoint(event.pos) and agent == 2:
                     algo = 1
                     screen.blit(min_max_text, min_max_rect)
-                elif alpha_beta_rect.collidepoint(event.pos) and agent == 2:
+                elif recursion_rect.collidepoint(event.pos) and agent == 2:
                     algo = 2
-                    screen.blit(alpha_beta_text, alpha_beta_rect)
+                    screen.blit(recursion_text, recursion_rect)
 
     pygame.quit()
     sys.exit()

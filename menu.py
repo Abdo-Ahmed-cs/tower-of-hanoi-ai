@@ -58,10 +58,10 @@ def main_menu():
         algo_rect = agent_text.get_rect(center=(WIDTH // 2.15, 400))
 
         min_max_text = font2.render("DFS", True,BLACK)
-        min_max_rect = min_max_text.get_rect(center=(WIDTH // 2.7, 450))
+        min_max_rect = min_max_text.get_rect(center=(WIDTH // 2.9, 450))
 
         recursion_text = font2.render("Recursion", True, BLACK)
-        recursion_rect = recursion_text.get_rect(center=(WIDTH // 1.7, 450))
+        recursion_rect = recursion_text.get_rect(center=(WIDTH // 1.55, 450))
 
         exit_text = font2.render("Exit", True, BLACK)
         exit_rect = exit_text.get_rect(center=(WIDTH // 2, 530))

@@ -228,61 +228,40 @@ class Game():
             self.move_top_disc("down")
             time.sleep(self.speed)
 
-    def tower_of_hanoi_bfs(self):
-        start_state = (list(range(self.num_discs, 0, -1)), [], [])
-        queue = deque([(start_state, [])])
-        visited_states = set([tuple(start_state[0]), tuple(start_state[1]), tuple(start_state[2])])
+    def tower_of_hanoi_recursion(self, source = 1, target = 3, auxiliary = 2):
         moves = []
 
-        while queue:
-            current_state, moves_so_far = queue.popleft()
-            disks_on_rod_a, disks_on_rod_b, disks_on_rod_c = current_state
+        def move_disk(src, dest):
+            moves.append((src, dest))
 
-            for move in moves_so_far:
-                for i in range(0, abs(move[0] - self.current_rod)):
-                    if move[0] - self.current_rod > 0:
-                        self.move_indicator("right")
-                    else:
-                        self.move_indicator("left")
-                    time.sleep(self.speed)
-                self.move_top_disc("up")
+        def hanoi_recursive(num_disks, src, dest, aux):
+            if num_disks == 1:
+                move_disk(src, dest)
+            else:
+                hanoi_recursive(num_disks - 1, src, aux, dest)
+                move_disk(src, dest)
+                hanoi_recursive(num_disks - 1, aux, dest, src)
+
+        hanoi_recursive(self.num_discs, source, target, auxiliary)
+        for move in moves:
+            for i in range(0, abs(move[0] - self.current_rod)):
+                if move[0] - self.current_rod > 0:
+                    self.move_indicator("right")
+                else:
+                    self.move_indicator("left")
                 time.sleep(self.speed)
-                for i in range(0, abs(move[0] - move[1])):
-                    if move[0] - move[1] > 0:
-                        self.move_top_disc("left")
-                        self.move_indicator("left")
-                    else:
-                        self.move_top_disc("right")
-                        self.move_indicator("right")
-                    time.sleep(self.speed)
-                self.move_top_disc("down")
+            self.move_top_disc("up")
+            time.sleep(self.speed)
+            for i in range(0, abs(move[0] - move[1])):
+                if move[0] - move[1] > 0:
+                    self.move_top_disc("left")
+                    self.move_indicator("left")
+                else:
+                    self.move_top_disc("right")
+                    self.move_indicator("right")
                 time.sleep(self.speed)
-
-            if len(disks_on_rod_c) == self.num_discs:
-                moves = moves_so_far
-                print("Solution Found!")
-                break
-
-            for source, source_rods in enumerate([disks_on_rod_a, disks_on_rod_b, disks_on_rod_c]):
-                if source_rods:
-                    for target, target_rods in enumerate([disks_on_rod_a, disks_on_rod_b, disks_on_rod_c]):
-                        if source != target and (not target_rods or source_rods[-1] < target_rods[-1]):
-                            new_state = (
-                                disks_on_rod_a[:],
-                                disks_on_rod_b[:],
-                                disks_on_rod_c[:]
-                            )
-                            new_state[target].append(new_state[source].pop())
-
-                            if tuple(new_state[0]) not in visited_states or tuple(
-                                    new_state[1]) not in visited_states or tuple(new_state[2]) not in visited_states:
-                                queue.append((new_state, moves_so_far + [(source + 1, target + 1)]))
-                                visited_states.add(tuple(new_state[0]))
-                                visited_states.add(tuple(new_state[1]))
-                                visited_states.add(tuple(new_state[2]))
-                                print("Added State to Queue:", new_state)
-
-        return moves
+            self.move_top_disc("down")
+            time.sleep(self.speed)
     def main_loop(self):
         clock = pygame.time.Clock()
         running = True
@@ -299,30 +278,30 @@ class Game():
                 if self.algo == 2:
                     self.redraw_scene()
                     time.sleep(self.speed)
-                    self.tower_of_hanoi_bfs()
+                    self.tower_of_hanoi_recursion()
+            elif self.agent == 1:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT:
+                            self.move_indicator('left')
+                            self.move_top_disc('left')
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.move_indicator('left')
-                        self.move_top_disc('left')
+                        elif event.key == pygame.K_RIGHT:
+                            self.move_indicator('right')
+                            self.move_top_disc('right')
 
-                    elif event.key == pygame.K_RIGHT:
-                        self.move_indicator('right')
-                        self.move_top_disc('right')
+                        elif event.key == pygame.K_UP:
+                            self.move_top_disc('up')
 
-                    elif event.key == pygame.K_UP:
-                        self.move_top_disc('up')
-
-                    elif event.key == pygame.K_DOWN:
-                        self.move_top_disc('down')
-                    elif event.key == pygame.K_r:
-                        self.reset_game()
-                    elif event.key == pygame.K_ESCAPE:
-                        return
-            self.redraw_scene()
+                        elif event.key == pygame.K_DOWN:
+                            self.move_top_disc('down')
+                        elif event.key == pygame.K_r:
+                            self.reset_game()
+                        elif event.key == pygame.K_ESCAPE:
+                            return
+                self.redraw_scene()
 
             # Check win condition
             if check_win(self.rods, self.num_discs):

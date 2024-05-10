@@ -60,8 +60,8 @@ def main_menu():
         min_max_text = font2.render("DFS", True,BLACK)
         min_max_rect = min_max_text.get_rect(center=(WIDTH // 2.7, 450))
 
-        alpha_beta_text = font2.render("BFS", True, BLACK)
-        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 1.6, 450))
+        alpha_beta_text = font2.render("Recursion", True, BLACK)
+        alpha_beta_rect = min_max_text.get_rect(center=(WIDTH // 1.7, 450))
 
         exit_text = font2.render("Exit", True, BLACK)
         exit_rect = exit_text.get_rect(center=(WIDTH // 2, 530))
@@ -75,7 +75,7 @@ def main_menu():
         if algo == 1:
             min_max_text = font2.render("DFS", True, WHITE)
         elif algo == 2:
-            alpha_beta_text = font2.render("BFS", True, WHITE)
+            alpha_beta_text = font2.render("Recursion", True, WHITE)
 
         screen.blit(title_text_shadow, (title_rect.x + 4, title_rect.y + 4))
         screen.blit(title_text, title_rect)
